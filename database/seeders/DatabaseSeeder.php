@@ -18,11 +18,15 @@ class DatabaseSeeder extends Seeder
 
         User::firstOrCreate(
             ['email' => 'test@example.com'],
-            [
+            values: [
                 'name' => 'Test User',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]
         );
+
+        $this->call(([
+            IngredientSeeder::class
+        ]));
     }
 }
