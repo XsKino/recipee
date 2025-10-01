@@ -9,9 +9,8 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -139,5 +138,119 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@layer utilities {
+    /* 3D Transform Utilities */
+    .perspective-none {
+        perspective: none;
+    }
+    
+    .perspective-sm {
+        perspective: 400px;
+    }
+    
+    .perspective {
+        perspective: 800px;
+    }
+    
+    .perspective-dramatic {
+        perspective: 1000px;
+    }
+    
+    .perspective-extreme {
+        perspective: 1500px;
+    }
+    
+    .transform-3d {
+        transform-style: preserve-3d;
+    }
+    
+    .transform-flat {
+        transform-style: flat;
+    }
+    
+    .backface-visible {
+        backface-visibility: visible;
+    }
+    
+    .backface-hidden {
+        backface-visibility: hidden;
+    }
+    
+    /* Rotate X */
+    .rotate-x-0 {
+        transform: rotateX(0deg);
+    }
+    
+    .rotate-x-12 {
+        transform: rotateX(12deg);
+    }
+    
+    .rotate-x-45 {
+        transform: rotateX(45deg);
+    }
+    
+    .rotate-x-90 {
+        transform: rotateX(90deg);
+    }
+    
+    .-rotate-x-12 {
+        transform: rotateX(-12deg);
+    }
+    
+    .-rotate-x-45 {
+        transform: rotateX(-45deg);
+    }
+    
+    /* Rotate Y */
+    .rotate-y-12 {
+        transform: rotateY(12deg);
+    }
+    
+    .rotate-y-45 {
+        transform: rotateY(45deg);
+    }
+    
+    .rotate-y-90 {
+        transform: rotateY(90deg);
+    }
+    
+    .-rotate-y-12 {
+        transform: rotateY(-12deg);
+    }
+    
+    .-rotate-y-45 {
+        transform: rotateY(-45deg);
+    }
+    
+    /* Translate Z */
+    .translate-z-0 {
+        transform: translateZ(0);
+    }
+    
+    .translate-z-4 {
+        transform: translateZ(1rem);
+    }
+    
+    .translate-z-8 {
+        transform: translateZ(2rem);
+    }
+    
+    .translate-z-16 {
+        transform: translateZ(4rem);
+    }
+    
+    .translate-z-32 {
+        transform: translateZ(8rem);
+    }
+    
+    .-translate-z-4 {
+        transform: translateZ(-1rem);
+    }
+    
+    .-translate-z-8 {
+        transform: translateZ(-2rem);
     }
 }

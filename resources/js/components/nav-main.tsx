@@ -5,24 +5,27 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
-    const page = usePage();
+    const page = usePage<SharedData>();
+
+    const filteredItems = items.filter((item) => {
+        if (item.adminOnly) {
+            return page.props.auth.user?.is_admin;
+        }
+        return true;
+    });
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
-                {items.map((item) => (
+                {filteredItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
                             asChild
-                            isActive={page.url.startsWith(
-                                typeof item.href === 'string'
-                                    ? item.href
-                                    : item.href.url,
-                            )}
+                            isActive={page.url.startsWith(typeof item.href === 'string' ? item.href : item.href.url)}
                             tooltip={{ children: item.title }}
                         >
                             <Link href={item.href} prefetch>

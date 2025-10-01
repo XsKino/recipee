@@ -13,14 +13,25 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Code2Icon, GlobeIcon, LayoutGrid } from 'lucide-react';
+import { BookUserIcon, Code2Icon, GlobeIcon, LayoutGrid, LucideBookCopy } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: '/dashboard',
         icon: LayoutGrid,
+        adminOnly: true,
+    },
+    {
+        title: 'All recipes',
+        href: '/recipes',
+        icon: LucideBookCopy,
+    },
+    {
+        title: 'My Recipes',
+        href: '/user-recipes',
+        icon: BookUserIcon,
     },
 ];
 

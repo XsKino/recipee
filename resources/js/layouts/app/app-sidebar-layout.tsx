@@ -7,13 +7,14 @@ import { type PropsWithChildren } from 'react';
 
 export default function AppSidebarLayout({
     children,
+    endSlot,
     breadcrumbs = [],
-}: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
+}: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[]; endSlot?: React.ReactNode }>) {
     return (
         <AppShell variant="sidebar">
             <AppSidebar />
             <AppContent variant="sidebar" className="overflow-x-hidden">
-                <AppSidebarHeader breadcrumbs={breadcrumbs} />
+                <AppSidebarHeader endSlot={endSlot} breadcrumbs={breadcrumbs} />
                 {children}
             </AppContent>
         </AppShell>
