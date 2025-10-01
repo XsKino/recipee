@@ -14,9 +14,12 @@ export default defineConfig({
         }),
         react(),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-        }),
+        // Only run Wayfinder in local development
+        ...(process.env.NODE_ENV !== 'production' ? [
+            wayfinder({
+                formVariants: true,
+            })
+        ] : []),
     ],
     resolve: {
         alias: {
