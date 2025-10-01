@@ -17,20 +17,19 @@ class DatabaseSeeder extends Seeder
         // Clear existing data (except ingredients as requested)
         $this->command->info('🧹 Clearing existing data...');
         
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // SQLite syntax for disabling foreign key constraints
+        DB::statement('PRAGMA foreign_keys = OFF;');
         
         // Clear all tables except ingredients
-        DB::table('reviews')->truncate();
-        DB::table('ingredients_x_recipes')->truncate();
-        DB::table('recipes')->truncate();
-        DB::table('users')->truncate();
+        DB::table('reviews')->delete();
+        DB::table('ingredients_x_recipes')->delete();
+        DB::table('recipes')->delete();
+        DB::table('users')->delete();
         
-        // Reset auto increment
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE recipes AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE reviews AUTO_INCREMENT = 1;');
+        // Reset auto increment for SQLite
+        DB::statement('DELETE FROM sqlite_sequence WHERE name IN ("users", "recipes", "reviews");');
         
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('PRAGMA foreign_keys = ON;');
         
         $this->command->info('✅ Existing data cleared (kept ingredients).');
 

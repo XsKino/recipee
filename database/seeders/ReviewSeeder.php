@@ -45,10 +45,16 @@ class ReviewSeeder extends Seeder
             // Ensure we don't exceed available users
             $reviewCount = min($reviewCount, $eligibleUsers->count());
             
-            // Select random users for this recipe
-            $selectedUsers = $eligibleUsers->random($reviewCount);
+            // Select random users for this recipe (ensuring uniqueness)
+            $selectedUsers = $eligibleUsers->shuffle()->take($reviewCount);
 
             foreach ($selectedUsers as $user) {
+                // Check if review already exists (safety check)
+                if (Review::where('user_id', $user->id)
+                          ->where('recipe_id', $recipe->id)
+                          ->exists()) {
+                    continue;
+                }
                 // Create varied review types
                 $reviewType = rand(1, 10);
                 
@@ -96,10 +102,39 @@ class ReviewSeeder extends Seeder
 
         $this->command->info("Created {$totalReviews} reviews across {$recipes->count()} recipes.");
         
-        // Create some additional random reviews
-        Review::factory(50)->create();
+        // Create some additional random reviews (avoiding duplicates)
+        $this->command->info('Creating additional random reviews...');
+        $additionalReviews = 0;
+        $maxAttempts = 100; // Prevent infinite loop
+        $attempts = 0;
         
-        $this->command->info('Created 50 additional random reviews.');
+        while ($additionalReviews < 50 && $attempts < $maxAttempts) {
+            $attempts++;
+            
+            $randomUser = $users->random();
+            $randomRecipe = $recipes->random();
+            
+            // Skip if user is the recipe author
+            if ($randomUser->id === $randomRecipe->user_id) {
+                continue;
+            }
+            
+            // Skip if review already exists
+            if (Review::where('user_id', $randomUser->id)
+                      ->where('recipe_id', $randomRecipe->id)
+                      ->exists()) {
+                continue;
+            }
+            
+            Review::factory()
+                ->forRecipe($randomRecipe)
+                ->byUser($randomUser)
+                ->create();
+            
+            $additionalReviews++;
+        }
+        
+        $this->command->info("Created {$additionalReviews} additional random reviews.");
         $this->command->info('Review seeding completed!');
     }
 }

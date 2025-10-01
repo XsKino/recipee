@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->onDelete('set null');
             $table->foreignId('recipe_id')->constrained('recipes')->onDelete('cascade');
-            $table->float('rating')->default(0);
+            $table->float('rating')->nullable();
             $table->text('comment')->nullable();
             $table->unique(['user_id', 'recipe_id']);
         });
