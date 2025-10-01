@@ -14,17 +14,18 @@ export default defineConfig({
         }),
         react(),
         tailwindcss(),
-        // Only run Wayfinder in local development
-        ...(process.env.NODE_ENV !== 'production' ? [
+        // Only run Wayfinder if not in CI/build environment
+        ...(process.env.CI || process.env.VERCEL ? [] : [
             wayfinder({
                 formVariants: true,
             })
-        ] : []),
+        ]),
     ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js'),
-            'ziggy': path.resolve(__dirname, 'vendor/tightenco/ziggy'),
+            // Use ziggy from node_modules instead of vendor directory
+            'ziggy': 'ziggy-js',
         },
     },
     esbuild: {
